@@ -16,10 +16,10 @@ class Flow():
 		}
 		response = requests.request('get', self.FLOW_GET_URL.format(flow_name=flow_name), **kwargs)
 		response.raise_for_status()
-		self.flow_output = response.json()
+		self.flow_dict = response.json()
 
 	def run_event(self, event_name):
-		URL = 'https://api.iflowly.com/v1/flows/{flow_id}/execute-event/{event_name}/'.format(flow_id=self.flow_output.get('id'), event_name=event_name)
+		URL = 'https://api.iflowly.com/v1/flows/{flow_id}/execute-event/{event_name}/'.format(flow_id=self.flow_dict.get('id'), event_name=event_name)
 		kwargs = {
 			'headers': {
 				'X-Api-Key': self.api_key
@@ -28,6 +28,21 @@ class Flow():
 		response = requests.request('post', URL, **kwargs)
 		response.raise_for_status()
 		return response.json()
+
+
+	def run_trigger(self, trigger_name):
+		URL = 'https://api.iflowly.com/v1/flows/{flow_id}/execute-trigger/{trigger_name}/'.format(flow_id=self.flow_dict.get('id'), trigger_name=trigger_name)
+		kwargs = {
+			'headers': {
+				'X-Api-Key': self.api_key
+			}
+		}
+		response = requests.request('post', URL, **kwargs)
+		response.raise_for_status()
+		return response.json()
+
+	def get_initial_state(self):
+		raise NotImplementedError('Not yet implemented')
 
 
 class IFlowly():
