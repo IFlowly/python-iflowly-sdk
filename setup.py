@@ -20,6 +20,7 @@ packages = ['iflowly']
 
 requires = [
     'requests==2.23.0',
+    'requests'
 ]
 
 about = {}
