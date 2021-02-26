@@ -1,7 +1,7 @@
 __title__ = 'iflowly'
 __description__ = 'IFlowly Pythonn SDK.'
 __url__ = 'https://github.com/Iflowly/python-iflowly-sdk'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 __author__ = 'IFlowly'
 __author_email__ = 'mohammad.albakri@iflowly.com'
 __license__ = 'MIT License'
