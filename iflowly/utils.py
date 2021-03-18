@@ -26,7 +26,6 @@ class RequestConstructor(PathConstruct):
         return result
 
     def request(self, method, url, data={}, headers={}, params={}):
-        # Prepare auth headers
         kwargs = {
             'headers': self.prepare_headers(headers),
             'data': data,
@@ -34,4 +33,4 @@ class RequestConstructor(PathConstruct):
         }
         response = requests.request(method, url, **kwargs)
         response.raise_for_status()
-        return response.json()
+        return response
