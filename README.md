@@ -1,2 +1,3 @@
-# python-iflowly-sdk
-SDK Python Wrapper for IFlowly APIs
+# IFlowly Python SDK
+
+An SDK wrapper abstraction in Python for IFlowly APIs.

@@ -1,11 +1,11 @@
 import requests
 from .utils import RequestConstructor
-from .exceptions import TriggerError
+from .exceptions import TriggerError, InitialStateNotFound
 from .constants import BASE_API_URL, LATEST_API_VERSION
 
 class IFlowly():
 
-    def __init__(self, api_key):
+    def __init__(self, api_key=None):
         self.requester = RequestConstructor(api_key)
 
     def get_flow(self, flow_name, version='latest'):
@@ -107,7 +107,7 @@ class Flow():
         params = {
             'type': 'FlowVersion'
         }
-        response = self.requester.request('get', url, params=params, json=False)
+        response = self.requester.request('get', url, params=params)
         if response.status_code == 200:
             json_response = response.json()
             for state_relation in json_response.get('states', []):
@@ -116,6 +116,12 @@ class Flow():
             for trigger_relation in json_response.get('triggers', []):
                 self.triggers.append(Trigger.initialize(trigger_relation.get('trigger')))
 
+    @property
+    def initial_state(self):
+        for state in self.states:
+            if state.initial:
+                return state
+        raise InitialStateNotFound
 
     def run_event(self, event_name, context={}):
         PATH = '{flow_id}/execute-event/{event_name}'.format(flow_id=self.id, event_name=event_name)
